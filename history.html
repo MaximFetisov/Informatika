@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Эвакуация музеев Ленинграда в годы блокады</title>
+    <link href="https://cdn.jsdelivr.net/npm/fontsource-playfair-display@4.0.0/index.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fontsource-roboto@4.0.0/index.css" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-dark: #1a1a1f;
+            --bg-section: #222228;
+            --bg-card: #2a2a32;
+            --bg-card-hover: #333340;
+            --gold: #c9a84c;
+            --gold-light: #e0c872;
+            --gold-dark: #a08030;
+            --text-primary: #e8e6e1;
+            --text-secondary: #a8a6a0;
+            --text-muted: #7a7872;
+            --border: #3a3a44;
+            --accent-red: #8b3a3a;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(26,26,31,0.95);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
+        .nav-inner {
+            max-width: 1300px; margin: 0 auto; padding: 0 2rem;
+            display: flex; align-items: center; justify-content: space-between; height: 64px;
+        }
+        .nav-logo {
+            font-family: 'Playfair Display', serif; font-size: 1.1rem;
+            color: var(--gold); letter-spacing: 0.05em; text-decoration: none;
+            display: flex; align-items: center; gap: 0.6rem; cursor: pointer;
+        }
+        .nav-logo svg { width: 28px; height: 28px; }
+        .nav-links { display: flex; gap: 0.3rem; list-style: none; }
+        .nav-links a {
+            color: var(--text-secondary); text-decoration: none; font-size: 0.88rem;
+            padding: 0.5rem 1rem; border-radius: 6px; transition: all 0.25s ease;
+            letter-spacing: 0.02em;
+        }
+        .nav-links a:hover { color: var(--gold); background: rgba(201,168,76,0.08); }
+        .burger {
+            display: none; flex-direction: column; gap: 5px; cursor: pointer;
+            padding: 8px; background: none; border: none;
+        }
+        .burger span {
+            width: 24px; height: 2px; background: var(--text-primary);
+            border-radius: 2px; transition: all 0.3s ease;
+        }
+        .hero {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden; text-align: center; padding: 6rem 2rem 4rem;
+        }
+        .hero-bg {
+            position: absolute; inset: 0; z-index: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(201,168,76,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 30%, rgba(139,58,58,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 100%, rgba(201,168,76,0.04) 0%, transparent 40%);
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 850px; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25);
+            color: var(--gold-light); padding: 0.45rem 1.2rem; border-radius: 100px;
+            font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2rem;
+            animation: fadeInDown 0.8s ease;
+        }
+        .hero-badge::before {
+            content: ''; width: 8px; height: 8px; background: var(--gold);
+            border-radius: 50%; animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+        .hero h1 {
+            font-family: 'Playfair Display', serif; font-size: clamp(2.4rem,5.5vw,4.2rem);
+            font-weight: 700; line-height: 1.15; margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.15s both;
+        }
+        .hero h1 .gold { color: var(--gold); }
+        .hero-subtitle {
+            font-size: clamp(1rem,2vw,1.2rem); color: var(--text-secondary);
+            max-width: 650px; margin: 0 auto 2.5rem; animation: fadeInUp 0.8s ease 0.3s both;
+        }
+        .hero-stats {
+            display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.45s both;
+        }
+        .hero-stat { text-align: center; }
+        .hero-stat-num {
+            font-family: 'Playfair Display', serif; font-size: 2.6rem;
+            font-weight: 700; color: var(--gold); line-height: 1;
+        }
+        .hero-stat-label {
+            font-size: 0.82rem; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.4rem;
+        }
+        .scroll-hint {
+            position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+            color: var(--text-muted); font-size: 0.75rem; letter-spacing: 0.15em;
+            text-transform: uppercase; animation: float 3s ease-in-out infinite;
+        }
+        .scroll-hint svg { width: 20px; height: 20px; stroke: var(--text-muted); }
+        @keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes fadeInDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+        section { padding: 5rem 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 3.5rem; }
+        .section-tag {
+            display: inline-block; color: var(--gold); font-size: 0.78rem;
+            text-transform: uppercase; letter-spacing: 0.15em; font-weight: 600; margin-bottom: 0.8rem;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif; font-size: clamp(1.8rem,3.5vw,2.6rem);
+            font-weight: 700; margin-bottom: 1rem; line-height: 1.2;
+        }
+        .section-desc { color: var(--text-secondary); max-width: 650px; margin: 0 auto; font-size: 1rem; }
+        .divider {
+            width: 60px; height: 3px;
+            background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+            margin: 1rem auto 0; border-radius: 3px;
+        }
+        #map-section { background: var(--bg-section); }
+        .map-wrapper {
+            border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.3); position: relative;
+        }
+        .map-container { width: 100%; height: 550px; position: relative; overflow: hidden; }
+        .map-container iframe {
+            width: 100%; height: 610px; border: none; display: block;
+            position: absolute; top: -58px; left: 0; pointer-events: auto;
+        }
+        .map-overlay-strip {
+            position: absolute; top: 0; left: 0; right: 0; height: 58px;
+            background: var(--bg-card); z-index: 10;
+            display: flex; align-items: center; justify-content: center; gap: 0.8rem; padding: 0 1.5rem;
+        }
+        .map-overlay-strip span {
+            font-family: 'Playfair Display', serif; font-size: 1.05rem;
+            color: var(--gold-light); letter-spacing: 0.03em;
+        }
+        .map-overlay-strip .map-icon { width: 22px; height: 22px; stroke: var(--gold); }
+        .map-info-bar {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1rem 1.5rem; background: var(--bg-card);
+            border-top: 1px solid var(--border); flex-wrap: wrap; gap: 0.8rem;
+        }
+        .map-info-bar p { color: var(--text-secondary); font-size: 0.9rem; }
+        .map-btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            color: var(--gold); text-decoration: none; font-size: 0.88rem; font-weight: 500;
+            padding: 0.5rem 1.2rem; border: 1px solid rgba(201,168,76,0.3);
+            border-radius: 8px; transition: all 0.25s ease;
+        }
+        .map-btn:hover { background: rgba(201,168,76,0.1); border-color: var(--gold); }
+        #timeline { background: var(--bg-dark); }
+        .timeline { position: relative; max-width: 900px; margin: 0 auto; }
+        .timeline::before {
+            content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+            top: 0; bottom: 0; width: 2px;
+            background: linear-gradient(to bottom, transparent, var(--gold-dark), var(--gold-dark), transparent);
+        }
+        .timeline-item {
+            display: flex; align-items: flex-start; margin-bottom: 3rem;
+            position: relative; opacity: 0; transform: translateY(30px); transition: all 0.6s ease;
+        }
+        .timeline-item.visible { opacity: 1; transform: translateY(0); }
+        .timeline-item:nth-child(odd) { flex-direction: row; }
+        .timeline-item:nth-child(even) { flex-direction: row-reverse; }
+        .timeline-content {
+            width: calc(50% - 40px); background: var(--bg-card);
+            border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; transition: all 0.3s ease;
+        }
+        .timeline-content:hover {
+            background: var(--bg-card-hover); border-color: rgba(201,168,76,0.2);
+            transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+        .timeline-dot {
+            position: absolute; left: 50%; transform: translateX(-50%);
+            width: 16px; height: 16px; background: var(--gold); border-radius: 50%;
+            border: 3px solid var(--bg-dark); z-index: 2; top: 1.5rem;
+        }
+        .timeline-date { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--gold); margin-bottom: 0.5rem; }
+        .timeline-title { font-weight: 600; font-size: 1rem; margin-bottom: 0.5rem; }
+        .timeline-text { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+        #museums { background: var(--bg-section); }
+        .museums-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem;
+        }
+        .museum-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+            overflow: hidden; transition: all 0.35s ease; opacity: 0; transform: translateY(40px);
+            cursor: pointer;
+        }
+        .museum-card.visible { opacity: 1; transform: translateY(0); }
+        .museum-card:hover {
+            border-color: rgba(201,168,76,0.3); transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+        }
+        .museum-card-img { width: 100%; height: 200px; object-fit: cover; display: block; background: var(--bg-card-hover); }
+        .museum-card-body { padding: 1.5rem; }
+        .museum-card-tag {
+            display: inline-block; background: rgba(201,168,76,0.12); color: var(--gold);
+            font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em;
+            padding: 0.3rem 0.7rem; border-radius: 4px; margin-bottom: 0.8rem; font-weight: 600;
+        }
+        .museum-card-title {
+            font-family: 'Playfair Display', serif; font-size: 1.25rem;
+            font-weight: 600; margin-bottom: 0.6rem; line-height: 1.3;
+        }
+        .museum-card-text { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+        .museum-card-footer {
+            padding: 1rem 1.5rem; border-top: 1px solid var(--border);
+            display: flex; align-items: center; gap: 0.5rem;
+            font-size: 0.82rem; color: var(--text-muted);
+        }
+        .museum-card-footer svg { width: 16px; height: 16px; stroke: var(--gold-dark); }
+        #facts { background: var(--bg-dark); }
+        .facts-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem;
+        }
+        .fact-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+            padding: 2rem 1.5rem; text-align: center; transition: all 0.3s ease;
+            opacity: 0; transform: scale(0.95);
+        }
+        .fact-card.visible { opacity: 1; transform: scale(1); }
+        .fact-card:hover {
+            border-color: rgba(201,168,76,0.25); transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+        .fact-icon {
+            width: 56px; height: 56px; margin: 0 auto 1.2rem;
+            background: rgba(201,168,76,0.1); border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .fact-icon svg {
+            width: 28px; height: 28px; stroke: var(--gold); fill: none;
+            stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+        }
+        .fact-num {
+            font-family: 'Playfair Display', serif; font-size: 2.2rem;
+            font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 0.5rem;
+        }
+        .fact-label { font-size: 0.9rem; color: var(--text-secondary); }
+        #road { background: var(--bg-section); position: relative; overflow: hidden; }
+        .road-content { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .road-text h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 1.2rem; }
+        .road-text p { color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.95rem; }
+        .road-details { display: grid; gap: 1rem; margin-top: 2rem; }
+        .road-detail {
+            display: flex; align-items: flex-start; gap: 1rem; padding: 1rem;
+            background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border);
+        }
+        .road-detail-icon {
+            flex-shrink: 0; width: 40px; height: 40px;
+            background: rgba(201,168,76,0.1); border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .road-detail-icon svg { width: 20px; height: 20px; stroke: var(--gold); fill: none; }
+        .road-detail h4 { font-size: 0.95rem; margin-bottom: 0.2rem; }
+        .road-detail p { font-size: 0.85rem; color: var(--text-muted); margin: 0; }
+        .road-visual { position: relative; }
+        .road-visual-inner {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 16px; padding: 2rem; position: relative;
+        }
+        .road-visual-inner svg { width: 100%; height: auto; }
+        .quote-section { background: var(--bg-dark); padding: 5rem 2rem; text-align: center; }
+        .quote-block { max-width: 800px; margin: 0 auto; position: relative; }
+        .quote-mark {
+            font-family: 'Playfair Display', serif; font-size: 6rem;
+            color: var(--gold-dark); opacity: 0.3; line-height: 1;
+            position: absolute; top: -2rem; left: -1rem;
+        }
+        .quote-text {
+            font-family: 'Playfair Display', serif; font-size: clamp(1.2rem,2.5vw,1.6rem);
+            font-style: italic; line-height: 1.6; color: var(--text-primary); margin-bottom: 1.5rem;
+        }
+        .quote-author { color: var(--text-muted); font-size: 0.9rem; }
+        footer { background: var(--bg-section); border-top: 1px solid var(--border); padding: 3rem 2rem; text-align: center; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; }
+        .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--gold); margin-bottom: 0.8rem; }
+        .footer-text { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.3rem; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+        .footer-links a:hover { color: var(--gold); }
+        @media (max-width: 900px) {
+            .nav-links {
+                display: none; position: absolute; top: 64px; left: 0; right: 0;
+                background: rgba(26,26,31,0.97); flex-direction: column;
+                padding: 1rem; border-bottom: 1px solid var(--border);
+            }
+            .nav-links.open { display: flex; }
+            .burger { display: flex; }
+            .timeline::before { left: 20px; }
+            .timeline-item, .timeline-item:nth-child(even) { flex-direction: row; padding-left: 50px; }
+            .timeline-content { width: 100%; }
+            .timeline-dot { left: 20px; }
+            .road-content { grid-template-columns: 1fr; gap: 2rem; }
+            .museums-grid { grid-template-columns: 1fr; }
+            .hero-stats { gap: 2rem; }
+            .map-container { height: 400px; }
+            .map-container iframe { height: 458px; }
+            .map-overlay-strip { height: 58px; }
+        }
+        @media (max-width: 600px) {
+            section { padding: 3.5rem 1.2rem; }
+            .facts-grid { grid-template-columns: 1fr 1fr; }
+            .hero-stats { flex-direction: column; gap: 1.5rem; }
+        }
+        .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        .memorial-ribbon {
+            background: linear-gradient(90deg, var(--accent-red), #6b2d2d, var(--accent-red));
+            padding: 0.6rem 2rem; text-align: center; font-size: 0.85rem;
+            color: rgba(255,255,255,0.85); letter-spacing: 0.05em;
+        }
+
+        /* ===== MUSEUM DETAIL PAGE ===== */
+        .museum-detail-page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 64px;
+        }
+        .museum-detail-page.active { display: block; }
+        .main-page.hidden { display: none; }
+
+        .museum-hero {
+            position: relative;
+            height: 50vh;
+            min-height: 350px;
+            overflow: hidden;
+        }
+        .museum-hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.5);
+        }
+        .museum-hero-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 3rem 2rem;
+            background: linear-gradient(to top, rgba(26,26,31,0.95) 0%, rgba(26,26,31,0.3) 60%, transparent 100%);
+        }
+        .museum-back-btn {
+            position: absolute;
+            top: 1.5rem;
+            left: 2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.6rem 1.2rem;
+            background: rgba(26,26,31,0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            z-index: 10;
+        }
+        .museum-back-btn:hover {
+            background: rgba(201,168,76,0.2);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .museum-back-btn svg { width: 18px; height: 18px; }
+        .museum-hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 700;
+            line-height: 1.15;
+            max-width: 800px;
+        }
+        .museum-hero-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-top: 0.8rem;
+            max-width: 600px;
+        }
+
+        .museum-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem 5rem;
+        }
+        .museum-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--gold);
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .museum-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            margin: 2rem 0 0.8rem;
+            color: var(--gold-light);
+        }
+        .museum-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+        .museum-content ul {
+            color: var(--text-secondary);
+            margin: 0.5rem 0 1rem 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+        .museum-content li { margin-bottom: 0.3rem; }
+        .museum-content strong { color: var(--text-primary); }
+
+        .museum-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .museum-info-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.2rem;
+            text-align: center;
+        }
+        .museum-info-item .label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.4rem;
+        }
+        .museum-info-item .value {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .museum-timeline-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .museum-timeline-block .date {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .museum-quote {
+            background: rgba(201,168,76,0.08);
+            border-left: 3px solid var(--gold);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 10px 10px 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .museum-hero { height: 40vh; min-height: 280px; }
+            .museum-hero-overlay { padding: 2rem 1.2rem; }
+            .museum-back-btn { top: 1rem; left: 1rem; }
+            .museum-content { padding: 2rem 1.2rem 4rem; }
+            .museum-info-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="memorial-ribbon">1941–1944 · Блокада Ленинграда · 872 дня мужества и стойкости</div>
+
+<nav id="navbar">
+    <div class="nav-inner">
+        <a class="nav-logo" onclick="showMainPage()">
+            <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="8" width="22" height="16" rx="2"/>
+                <path d="M8 8V5a6 6 0 0 1 12 0v3"/>
+                <line x1="14" y1="14" x2="14" y2="20"/>
+                <line x1="11" y1="17" x2="17" y2="17"/>
+            </svg>
+            Музеи Блокады
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#map-section" onclick="showMainPage()">Карта</a></li>
+            <li><a href="#timeline" onclick="showMainPage()">Хронология</a></li>
+            <li><a href="#museums" onclick="showMainPage()">Музеи</a></li>
+            <li><a href="#facts" onclick="showMainPage()">Факты</a></li>
+            <li><a href="#road" onclick="showMainPage()">Дорога жизни</a></li>
+        </ul>
+        <button class="burger" id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
+    </div>
+</nav>
+
+<!-- ===== MAIN PAGE ===== -->
+<div class="main-page" id="mainPage">
+
+<section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+        <div class="hero-badge">Историко-мемориальный проект</div>
+        <h1>Эвакуация музеев <span class="gold">Ленинграда</span> в годы блокады</h1>
+        <p class="hero-subtitle">История спасения культурного наследия — как сотрудники музеев рискуя жизнью вывезли сотни тысяч экспонатов из блокадного города</p>
+        <div class="hero-stats">
+            <div class="hero-stat"><div class="hero-stat-num" data-count="42">0</div><div class="hero-stat-label">музея эвакуировано</div></div>
+            <div class="hero-stat"><div class="hero-stat-num" data-count="1200">0</div><div class="hero-stat-label">тысяч экспонатов спасено</div></div>
+            <div class="hero-stat"><div class="hero-stat-num" data-count="872">0</div><div class="hero-stat-label">дней блокады</div></div>
+        </div>
+    </div>
+    <div class="scroll-hint">
+        <span>Листайте вниз</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    </div>
+</section>
+
+<section id="map-section">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-tag">Интерактивная карта</div>
+            <h2 class="section-title">Маршруты эвакуации музеев</h2>
+            <p class="section-desc">На карте отмечены ключевые точки эвакуации музейных коллекций из Ленинграда в годы Великой Отечественной войны</p>
+            <div class="divider"></div>
+        </div>
+        <div class="map-wrapper fade-in">
+            <div class="map-container">
+                <div class="map-overlay-strip">
+                    <svg class="map-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                    <span>Маршруты эвакуации музейных ценностей</span>
+                </div>
+                <iframe src="https://www.google.com/maps/d/embed?mid=1clWA690mnALZ6zBCveloa_HZADTg1cw&ehbc=2E312F" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <div class="map-info-bar">
+                <p> Интерактивная карта с маршрутами эвакуации</p>
+                <a href="https://www.google.com/maps/d/edit?mid=1clWA690mnALZ6zBCveloa_HZADTg1cw&usp=sharing" target="_blank" class="map-btn">Открыть на Google Maps<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="timeline">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-tag">Хронология</div>
+            <h2 class="section-title">Ключевые даты эвакуации</h2>
+            <p class="section-desc">Основные этапы вывоза музейных ценностей из Ленинграда</p>
+            <div class="divider"></div>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item"><div class="timeline-content"><div class="timeline-date">Июнь — Июль 1941</div><div class="timeline-title">Начало эвакуации</div><div class="timeline-text">С первых дней войны музеи Ленинграда начали упаковывать экспонаты. Эрмитаж, Русский музей, Городской музей — все готовили коллекции к отправке.</div></div><div class="timeline-dot"></div></div>
+            <div class="timeline-item"><div class="timeline-content"><div class="timeline-date">Август 1941</div><div class="timeline-title">Первые эшелоны с ценностями</div><div class="timeline-text">Через Ладожское озеро и по железной дороге первые партии музейных экспонатов были отправлены в тыл. Эвакуация шла под непрерывными бомбёжками.</div></div><div class="timeline-dot"></div></div>
+            <div class="timeline-item"><div class="timeline-content"><div class="timeline-date">Сентябрь 1941</div><div class="timeline-title">Начало блокады</div><div class="timeline-text">8 сентября 1941 года Ленинград оказался в кольце блокады. Операция эвакуации музейных ценностей стала ещё опаснее, но не прекратилась.</div></div><div class="timeline-dot"></div></div>
+            <div class="timeline-item"><div class="timeline-content"><div class="timeline-date">Зима 1941–1942</div><div class="timeline-title">Эвакуация по «Дороге жизни»</div><div class="timeline-text">По ледовой дороге через Ладожское озеро продолжался вывоз музейных экспонатов. Грузовики везли бесценные коллекции по льду под обстрелами.</div></div><div class="timeline-dot"></div></div>
+            <div class="timeline-item"><div class="timeline-content"><div class="timeline-date">1942–1943</div><div class="timeline-title">Эвакуация в Сарапул, Молотов, Свердловск</div><div class="timeline-text">Основные коллекции Эрмитажа и других музеев были вывезены в Сарапул, Молотов (Пермь), Свердловск (Екатеринбург) и другие города Урала и Сибири.</div></div><div class="timeline-dot"></div></div>
+            <div class="timeline-item"><div class="timeline-content"><div class="timeline-date">1944–1946</div><div class="timeline-title">Возвращение экспонатов</div><div class="timeline-text">После снятия блокады и окончания войны начался масштабный процесс возврата музейных коллекций в Ленинград. Большинство экспонатов удалось сохранить.</div></div><div class="timeline-dot"></div></div>
+        </div>
+    </div>
+</section>
+
+<section id="museums">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-tag">Музеи</div>
+            <h2 class="section-title">Музеи, чьи коллекции были спасены</h2>
+            <p class="section-desc">Нажмите на карточку музея, чтобы узнать подробную историю его эвакуации</p>
+            <div class="divider"></div>
+        </div>
+        <div class="museums-grid">
+
+            <div class="museum-card" onclick="showMuseum('russian')">
+                <img src="https://cdnstatic.rg.ru/uploads/images/2024/01/18/9ezryfuydka_be7.jpeg" alt="Русский музей" class="museum-card-img"/>
+                <div class="museum-card-body">
+                    <span class="museum-card-tag">Крупнейший</span>
+                    <h3 class="museum-card-title">Русский музей</h3>
+                    <p class="museum-card-text">26 186 экспонатов эвакуировано в Молотов (Пермь). Монументальные полотна наматывали на фанерные катушки длиной до 10 метров.</p>
+                </div>
+                <div class="museum-card-footer">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                    Инженерная улица, 4 · Нажмите для подробностей →
+                </div>
+            </div>
+
+            <div class="museum-card" onclick="showMuseum('hermitage')">
+                <img src="https://cs11.livemaster.ru/storage/topic/NxN/30/38/0bfc8991089d351ec6b125a72fe5700ab67boz.jpg?h=DX_I1hCxPsb3XA0xryUMcg" alt="Эрмитаж" class="museum-card-img"/>
+                <div class="museum-card-body">
+                    <span class="museum-card-tag">Главный музей</span>
+                    <h3 class="museum-card-title">Государственный Эрмитаж</h3>
+                    <p class="museum-card-text">Более миллиона произведений искусства эвакуировано на Урал. За всё время эвакуации не было утеряно ни одного экспоната.</p>
+                </div>
+                <div class="museum-card-footer">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                    Дворцовая набережная, 32 · Нажмите для подробностей →
+                </div>
+            </div>
+
+            <div class="museum-card" onclick="showMuseum('kunstkamera')">
+                <img src="https://spbcult.ru/upload/iblock/52d/kkpvri4ogzit10cuf0tuk1q96rzpz8up.jpg" alt="Кунсткамера" class="museum-card-img"/>
+                <div class="museum-card-body">
+                    <span class="museum-card-tag">Первый музей России</span>
+                    <h3 class="museum-card-title">Кунсткамера</h3>
+                    <p class="museum-card-text">Оказалась почти на линии фронта — в 20 км от вражеских войск. Ценности законсервированы в подвалах.</p>
+                </div>
+                <div class="museum-card-footer">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                    Университетская наб., 3 · Нажмите для подробностей →
+                </div>
+            </div>
+
+            <div class="museum-card" onclick="showMuseum('naval')">
+                <img src="https://pastvu.com/_p/a/b/0/a/b0a8d63cc6ef4ef73650ed394f9ef48a.jpg" alt="Военно-морской музей" class="museum-card-img"/>
+                <div class="museum-card-body">
+                    <span class="museum-card-tag">Военный</span>
+                    <h3 class="museum-card-title">Центральный Военно-морской музей</h3>
+                    <p class="museum-card-text">Ценности эвакуированы в Ульяновск. Более 20 тысяч новых экспонатов собрано с мест боёв.</p>
+                </div>
+                <div class="museum-card-footer">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                    Биржевая пл., 6 · Нажмите для подробностей →
+                </div>
+            </div>
+
+            <div class="museum-card" onclick="showMuseum('zoological')">
+                <img src="https://travelask.ru/system/images/files/000/280/287/wysiwyg_jpg/1.jpg?1493816688" alt="Зоологический музей" class="museum-card-img"/>
+                <div class="museum-card-body">
+                    <span class="museum-card-tag">Научный</span>
+                    <h3 class="museum-card-title">Зоологический музей</h3>
+                    <p class="museum-card-text">Экспозиция из 30 000 объектов осталась в городе. Многие выдающиеся учёные погибли от голода.</p>
+                </div>
+                <div class="museum-card-footer">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                    Университетская наб., 1 · Нажмите для подробностей →
+                </div>
+            </div>
+
+            <div class="museum-card" onclick="showMuseum('ethnographic')">
+                <img src="https://pastvu.com/_p/a/2/0/q/20q0xdbff9el260x5c.jpg" alt="Этнографический музей" class="museum-card-img"/>
+                <div class="museum-card-body">
+                    <span class="museum-card-tag">Этнографический</span>
+                    <h3 class="museum-card-title">Российский этнографический музей</h3>
+                    <p class="museum-card-text">Коллекции эвакуированы в Новосибирск. От голода и холода умер 31 сотрудник музея.</p>
+                </div>
+                <div class="museum-card-footer">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                    Инженерная улица, 4/1 · Нажмите для подробностей →
+                </div>
+            </div>
+
+            <div class="museum-card" onclick="showMuseum('arctic')">
+                <img src="https://www.meteorf.gov.ru/images/9-may/RGMAA-1.jpg" alt="Музей Арктики" class="museum-card-img"/>
+                <div class="museum-card-body">
+                    <span class="museum-card-tag">Арктический</span>
+                    <h3 class="museum-card-title">Музей Арктики и Антарктики</h3>
+                    <p class="museum-card-text">Фонды эвакуированы в Красноярск. Выставка «Завоеванная Арктика» открылась уже 5 октября 1941 года.</p>
+                </div>
+                <div class="museum-card-footer">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                    ул. Марата, 24/27 · Нажмите для подробностей →
+                </div>
+            </div>
+
+            <div class="museum-card" onclick="showMuseum('religion')">
+                <img src="https://www.etoretro.ru/data/media/20/1331479652229.jpg" alt="Музей истории Религии" class="museum-card-img"/>
+                <div class="museum-card-body">
+                    <span class="museum-card-tag">Религиозный</span>
+                    <h3 class="museum-card-title">Музей истории Религии</h3>
+                    <p class="museum-card-text">Не эвакуирован — коллекции укрыты в подвалах Казанского собора. Сотрудники тушили зажигательные бомбы на крыше.</p>
+                </div>
+                <div class="museum-card-footer">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                    Казанская пл., 7 · Нажмите для подробностей →
+                </div>
+            </div>
+
+            <div class="museum-card" onclick="showMuseum('pushkin')">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Lyceum_in_Tsarskoye_Selo%2C_Peterburg%2C_1820s.jpg/1280px-Lyceum_in_Tsarskoye_Selo%2C_Peterburg%2C_1820s.jpg" alt="Музей Пушкина" class="museum-card-img"/>
+                <div class="museum-card-body">
+                    <span class="museum-card-tag">Литературный</span>
+                    <h3 class="museum-card-title">Всероссийский музей А. С. Пушкина</h3>
+                    <p class="museum-card-text">Бесценные экспонаты эвакуированы в Новосибирск. Дома-музеи в Царском Селе были стёрты с лица земли.</p>
+                </div>
+                <div class="museum-card-footer">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                    наб. реки Мойки, 12 · Нажмите для подробностей →
+                </div>
+            </div>
+
+            <div class="museum-card" onclick="showMuseum('communication')">
+                <img src="https://avatars.mds.yandex.net/i?id=c9106cefebe935a2043248cd3ba134cf_l-8102231-images-thumbs&n=13" alt="Музей связи" class="museum-card-img"/>
+                <div class="museum-card-body">
+                    <span class="museum-card-tag">Технический</span>
+                    <h3 class="museum-card-title">Центральный музей связи им. А. С. Попова</h3>
+                    <p class="museum-card-text">Приборы электросвязи изъяты для армии. Оставшиеся экспонаты упакованы и перемещены в подвальные помещения.</p>
+                </div>
+                <div class="museum-card-footer">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                    Почтамтская ул., 4 · Нажмите для подробностей →
+                </div>
+            </div>
+
+            <div class="museum-card" onclick="showMuseum('mining')">
+                <img src="https://открытыйгород.рф/upload/iblock/55e/Gornyy-institut.jpg" alt="Горный музей" class="museum-card-img"/>
+                <div class="museum-card-body">
+                    <span class="museum-card-tag">Геологический</span>
+                    <h3 class="museum-card-title">Горный музей</h3>
+                    <p class="museum-card-text">Самородки уложены в сейф и отправлены в Свердловск. Полуторатонная глыба малахита осталась в залах.</p>
+                </div>
+                <div class="museum-card-footer">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                    21-я линия ВО, 2 · Нажмите для подробностей →
+                </div>
+            </div>
+
+            <div class="museum-card" onclick="showMuseum('isaakievsky')">
+                <img src="https://www.meteorf.gov.ru/images/9-may/RGMAA-1.jpg" alt="Исаакиевский собор" class="museum-card-img"/>
+                <div class="museum-card-body">
+                    <span class="museum-card-tag">Музейный штаб</span>
+                    <h3 class="museum-card-title">Исаакиевский собор — «Музейный штаб»</h3>
+                    <p class="museum-card-text">В подвалах собора хранились экспонаты из Музея истории Ленинграда, Театрального музея, Арктики и пригородных дворцов.</p>
+                </div>
+                <div class="museum-card-footer">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                    Исаакиевская пл., 4 · Нажмите для подробностей →
+                </div>
+            </div>
+
+            <div class="museum-card" onclick="showMuseum('suburban')">
+                <img src="https://cs9.pikabu.ru/post_img/2020/07/16/4/159487601639361812.jpg" alt="Пригородные дворцы" class="museum-card-img"/>
+                <div class="museum-card-body">
+                    <span class="museum-card-tag">Дворцы-заповедники</span>
+                    <h3 class="museum-card-title">Пригородные дворцы-заповедники</h3>
+                    <p class="museum-card-text">Петергоф, Пушкин, Павловск, Гатчина — ценности отправлены в Сарапул, Новосибирск и Горький.</p>
+                </div>
+                <div class="museum-card-footer">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                    Петергоф, Пушкин, Павловск, Гатчина · Нажмите →
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="facts">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-tag">Цифры и факты</div>
+            <h2 class="section-title">Эвакуация в цифрах</h2>
+            <p class="section-desc">Масштаб операции по спасению культурного наследия</p>
+            <div class="divider"></div>
+        </div>
+        <div class="facts-grid">
+            <div class="fact-card"><div class="fact-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><div class="fact-num">42</div><div class="fact-label">Музея эвакуировано из Ленинграда</div></div>
+            <div class="fact-card"><div class="fact-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><div class="fact-num">~1,2 млн</div><div class="fact-label">Экспонатов Эрмитажа вывезено</div></div>
+            <div class="fact-card"><div class="fact-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="fact-num">12</div><div class="fact-label">Городов приняли эвакуированные коллекции</div></div>
+            <div class="fact-card"><div class="fact-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="fact-num">1168</div><div class="fact-label">Дней длилась эвакуация Эрмитажа</div></div>
+            <div class="fact-card"><div class="fact-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><div class="fact-num">97%</div><div class="fact-label">Экспонатов удалось сохранить</div></div>
+            <div class="fact-card"><div class="fact-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="fact-num">~5000</div><div class="fact-label">Сотрудников участвовали в эвакуации</div></div>
+            <div class="fact-card"><div class="fact-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><div class="fact-num">~30</div><div class="fact-label">Эшелонов с музейными ценностями</div></div>
+            <div class="fact-card"><div class="fact-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="fact-num">22</div><div class="fact-label">Музея вернули коллекции после войны</div></div>
+        </div>
+    </div>
+</section>
+
+<section id="road">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-tag">Дорога жизни</div>
+            <h2 class="section-title">Ледовая трасса через Ладогу</h2>
+            <p class="section-desc">По этому пути эвакуировали музейные ценности, продовольствие и людей</p>
+            <div class="divider"></div>
+        </div>
+        <div class="road-content">
+            <div class="road-text fade-in">
+                <h3>Путь спасения культурного наследия</h3>
+                <p>«Дорога жизни» — единственная транспортная магистраль через Ладожское озеро, связывавшая блокированный Ленинград с «Большой землёй». Зимой она проходила по льду, летом — по воде.</p>
+                <p>По этой дороге вывозили не только людей и продовольствие, но и бесценные музейные коллекции. Каждый рейс грузовика по льду был смертельно опасен — немецкая авиация и артиллерия непрерывно бомбили трассу.</p>
+                <div class="road-details">
+                    <div class="road-detail"><div class="road-detail-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg></div><div><h4>Длина трассы</h4><p>От 30 до 45 км по льду Ладожского озера</p></div></div>
+                    <div class="road-detail"><div class="road-detail-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v3"/></svg></div><div><h4>Период работы</h4><p>20 ноября 1941 — апрель 1942 (зимняя трасса)</p></div></div>
+                    <div class="road-detail"><div class="road-detail-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div><h4>Спасённые люди</h4><p>Более 1,3 миллиона человек эвакуировано</p></div></div>
+                </div>
+            </div>
+            <div class="road-visual fade-in">
+                <div class="road-visual-inner">
+                    <svg viewBox="0 0 500 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="250" cy="200" rx="220" ry="150" fill="#1e2a3a" stroke="#2a3a4a" stroke-width="1"/>
+                        <text x="250" y="200" text-anchor="middle" fill="#4a6a8a" font-size="18" font-family="Roboto" opacity="0.6">Ладожское озеро</text>
+                        <path d="M80 180 L120 170 L140 185 L170 175" stroke="#3a5a7a" stroke-width="0.5" opacity="0.4"/>
+                        <path d="M300 160 L340 170 L360 155" stroke="#3a5a7a" stroke-width="0.5" opacity="0.4"/>
+                        <path d="M200 220 L230 235 L260 225" stroke="#3a5a7a" stroke-width="0.5" opacity="0.4"/>
+                        <path d="M60 200 Q120 190 180 195 Q250 200 310 190 Q370 180 440 185" stroke="#c9a84c" stroke-width="3" stroke-dasharray="8 4" fill="none" opacity="0.8"/>
+                        <circle cx="60" cy="200" r="10" fill="#8b3a3a" stroke="#c9a84c" stroke-width="2"/>
+                        <text x="60" y="230" text-anchor="middle" fill="#e8e6e1" font-size="12" font-family="Playfair Display">Ленинград</text>
+                        <circle cx="440" cy="185" r="10" fill="#2a5a2a" stroke="#c9a84c" stroke-width="2"/>
+                        <text x="440" y="215" text-anchor="middle" fill="#e8e6e1" font-size="12" font-family="Playfair Display">«Большая земля»</text>
+                        <g transform="translate(150,188)"><rect x="0" y="0" width="14" height="8" rx="1" fill="#c9a84c" opacity="0.7"/><circle cx="3" cy="10" r="2" fill="#c9a84c" opacity="0.5"/><circle cx="11" cy="10" r="2" fill="#c9a84c" opacity="0.5"/></g>
+                        <g transform="translate(280,183)"><rect x="0" y="0" width="14" height="8" rx="1" fill="#c9a84c" opacity="0.7"/><circle cx="3" cy="10" r="2" fill="#c9a84c" opacity="0.5"/><circle cx="11" cy="10" r="2" fill="#c9a84c" opacity="0.5"/></g>
+                        <g transform="translate(350,182)"><rect x="0" y="0" width="14" height="8" rx="1" fill="#c9a84c" opacity="0.7"/><circle cx="3" cy="10" r="2" fill="#c9a84c" opacity="0.5"/><circle cx="11" cy="10" r="2" fill="#c9a84c" opacity="0.5"/></g>
+                        <circle cx="200" cy="195" r="25" fill="none" stroke="#8b3a3a" stroke-width="0.5" stroke-dasharray="3 3" opacity="0.3"/>
+                        <text x="200" y="170" text-anchor="middle" fill="#8b3a3a" font-size="9" font-family="Roboto" opacity="0.4">зона обстрела</text>
+                        <circle cx="320" cy="188" r="20" fill="none" stroke="#8b3a3a" stroke-width="0.5" stroke-dasharray="3 3" opacity="0.3"/>
+                        <text x="320" y="168" text-anchor="middle" fill="#8b3a3a" font-size="9" font-family="Roboto" opacity="0.4">зона обстрела</text>
+                        <g transform="translate(460,30)"><line x1="0" y1="10" x2="0" y2="-10" stroke="#7a7872" stroke-width="1"/><line x1="-10" y1="0" x2="10" y2="0" stroke="#7a7872" stroke-width="1"/><text x="0" y="-15" text-anchor="middle" fill="#7a7872" font-size="10" font-family="Roboto">С</text></g>
+                        <text x="250" y="360" text-anchor="middle" fill="#c9a84c" font-size="14" font-family="Playfair Display" opacity="0.8">Дорога жизни</text>
+                        <text x="250" y="380" text-anchor="middle" fill="#7a7872" font-size="10" font-family="Roboto" opacity="0.6">Зимняя ледовая трасса через Ладожское озеро</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="quote-section">
+    <div class="quote-block fade-in">
+        <div class="quote-mark">«</div>
+        <p class="quote-text">Мы спасали не просто картины и скульптуры — мы спасали душу России, её память и её будущее. Каждый упакованный экспонат был актом сопротивления разрушению.</p>
+        <p class="quote-author">— Из воспоминаний сотрудников Эрмитажа</p>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-inner">
+        <div class="footer-logo">Музеи Блокады</div>
+        <p class="footer-text">Историко-мемориальный проект, посвящённый эвакуации музейных коллекций Ленинграда</p>
+        <p class="footer-text" style="margin-top:0.5rem;">1941–1944 · Вечная память героям</p>
+        <div class="footer-links">
+            <a href="#map-section" onclick="showMainPage()">Карта эвакуации</a>
+            <a href="#timeline" onclick="showMainPage()">Хронология</a>
+            <a href="#museums" onclick="showMainPage()">Музеи</a>
+            <a href="#facts" onclick="showMainPage()">Факты</a>
+            <a href="#road" onclick="showMainPage()">Дорога жизни</a>
+        </div>
+    </div>
+</footer>
+
+</div><!-- end main-page -->
+
+<!-- ===== MUSEUM DETAIL PAGES ===== -->
+
+<!-- РУССКИЙ МУЗЕЙ -->
+<div class="museum-detail-page" id="museum-russian">
+    <div class="museum-hero">
+        <img src="https://cdnstatic.rg.ru/uploads/images/2024/01/18/9ezryfuydka_be7.jpeg" alt="Русский музей" class="museum-hero-img"/>
+        <div class="museum-hero-overlay">
+            <button class="museum-back-btn" onclick="showMainPage()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Назад к списку музеев
+            </button>
+            <h1 class="museum-hero-title">Русский музей</h1>
+            <p class="museum-hero-subtitle">26 186 бесценных экспонатов эвакуировано из Ленинграда в июле 1941 года</p>
+        </div>
+    </div>
+    <div class="museum-content">
+        <div class="museum-info-grid">
+            <div class="museum-info-item"><div class="label">Экспонатов эвакуировано</div><div class="value">26 186</div></div>
+            <div class="museum-info-item"><div class="label">Живописных полотен</div><div class="value">7 500</div></div>
+            <div class="museum-info-item"><div class="label">Город эвакуации</div><div class="value">Молотов (Пермь)</div></div>
+            <div class="museum-info-item"><div class="label">Дата эвакуации</div><div class="value">Июль 1941</div></div>
+            <div class="museum-info-item"><div class="label">Директор музея</div><div class="value">П. К. Балтун</div></div>
+            <div class="museum-info-item"><div class="label">Возвращение</div><div class="value">14 октября 1945</div></div>
+        </div>
+
+        <h2>Эвакуация Русского музея</h2>
+        <p>Эвакуация Русского музея — вывоз из Ленинграда 26 тысяч 186 бесценных экспонатов, в том числе 7,5 тыс. наиболее ценных живописных полотен Русского музея в июле 1941 года и переправка в город Молотов (ныне Пермь) с целью сохранить их от повреждения в период военных действий или захвата противником.</p>
+        <p>В июле 1941 года из Ленинграда в город Молотов (Пермь) вывезли 26 186 экспонатов, из них 7,5 тыс. наиболее ценных живописных полотен. Эвакуация была плановой: заранее изготовили специальные валы для намотки больших картин и ящики для упаковки.</p>
+
+        <h3>Монументальные полотна</h3>
+        <p>Монументальные полотна — «Последний день Помпеи» Брюллова, «Медный змий» Бруни (более 60 работ размером до 60 м²) — накатывали на фанерные катушки с деревянным каркасом. Валы длиной до 10 метров обтягивали искусственной замшей и оснащали деревянными колёсами. На одну катушку наматывали несколько картин, прокладывая плотной бумагой и сшивая кромки. Осыпи закрепляли осетровым клеем и папиросной бумагой. Готовые валы упаковывали в ящики.</p>
+
+        <div class="museum-timeline-block">
+            <div class="date">1 июля 1941 года</div>
+            <p>Начали перевозку на станцию. Руководил эвакуацией А. Г. Глина из Москвы. После отправки эшелона вскрыли пакет с пунктом назначения — город Горький. Первую партию (древнерусское искусство, золото, драгоценные камни) разгрузили, сотрудники вернулись в Ленинград.</p>
+        </div>
+
+        <div class="museum-timeline-block">
+            <div class="date">Август 1941</div>
+            <p>Из-за дефицита досок и фанеры подготовка второй очереди шла тяжело.</p>
+        </div>
+
+        <div class="museum-timeline-block">
+            <div class="date">18 августа 1941</div>
+            <p>Поступила телеграмма о переотправке коллекции из Горького в Молотов. Директор музея П. К. Балтун с группой сотрудников выехал в Горький.</p>
+        </div>
+
+        <div class="museum-timeline-block">
+            <div class="date">14 сентября 1941</div>
+            <p>Коллекции Русского музея вместе с частью собрания Третьяковской галереи погрузили на большую баржу и отправили по реке. Баржа прибыла в Молотов. Из-за нехватки мест ценности разместили в местной художественной галерее и в Троицком соборе Соликамска (там же хранились экспонаты музеев Востока, Бахрушина, архитектуры, Загорска, керамики, Голубкиной, Пушкинского музея, а также произведения Бродского и выставка Лермонтова).</p>
+        </div>
+
+        <h3>Вторая очередь эвакуации</h3>
+        <p>Вторая очередь экспонатов простояла в пакгаузе под угрозой бомбёжки; из-за нехватки вагонов её вернули обратно в музей. Ленинградцы помогали: возили песок для тушения зажигательных бомб, укрывали скульптуры землёй и настилами.</p>
+
+        <h2>Возвращение</h2>
+        <p>2 июля 1944 года музей впервые после блокады открыл двери — выставкой 70 художников Ленинградского фронта. 5 августа – 5 сентября прошла выставка к 100-летию Репина. 14 октября 1945 года эшелон с ценностями вернулся в Ленинград из Молотова и Соликамска.</p>
+    </div>
+</div>
+
+<!-- ЭРМИТАЖ -->
+<div class="museum-detail-page" id="museum-hermitage">
+    <div class="museum-hero">
+        <img src="https://cs11.livemaster.ru/storage/topic/NxN/30/38/0bfc8991089d351ec6b125a72fe5700ab67boz.jpg?h=DX_I1hCxPsb3XA0xryUMcg" alt="Эрмитаж" class="museum-hero-img"/>
+        <div class="museum-hero-overlay">
+            <button class="museum-back-btn" onclick="showMainPage()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Назад к списку музеев
+            </button>
+            <h1 class="museum-hero-title">Государственный Эрмитаж</h1>
+            <p class="museum-hero-subtitle">Более миллиона произведений искусства эвакуировано на Урал. Ни один экспонат не был утерян</p>
+        </div>
+    </div>
+    <div class="museum-content">
+        <div class="museum-info-grid">
+            <div class="museum-info-item"><div class="label">Экспонатов эвакуировано</div><div class="value">> 1 млн</div></div>
+            <div class="museum-info-item"><div class="label">Эшелонов</div><div class="value">2 (на Урал)</div></div>
+            <div class="museum-info-item"><div class="label">Город эвакуации</div><div class="value">Свердловск</div></div>
+            <div class="museum-info-item"><div class="label">Директор музея</div><div class="value">И. А. Орбели</div></div>
+            <div class="museum-info-item"><div class="label">Руководитель филиала</div><div class="value">В. Ф. Левинсон-Лессинг</div></div>
+            <div class="museum-info-item"><div class="label">Открытие после войны</div><div class="value">8 ноября 1945</div></div>
+        </div>
+
+        <h2>Спасение Эрмитажа</h2>
+        <p>22 июня 1941 года грянула Великая Отечественная война, и работники музея вместе с добровольцами незамедлительно начали спасать эрмитажные коллекции. Два эшелона отправили на Урал — больше миллиона бесценных произведений искусства. Когда вокруг Ленинграда сомкнулось блокадное кольцо, ещё шла подготовка к отправке третьего состава.</p>
+
+        <div class="museum-timeline-block">
+            <div class="date">6 июля 1941 года</div>
+            <p>Первый поезд прибыл в Свердловск.</p>
+        </div>
+        <div class="museum-timeline-block">
+            <div class="date">30 июля 1941 года</div>
+            <p>Второй поезд прибыл в Свердловск.</p>
+        </div>
+
+        <h3>Уральский филиал Эрмитажа</h3>
+        <p>Руководить уральским филиалом Эрмитажа поручили В. Ф. Левинсону-Лессингу. В эвакуации научные сотрудники дежурили в фондохранилищах, не бросали исследовательскую работу — читали лекции в госпиталях, выступали с докладами, писали научные статьи. <strong>За всё время эвакуации не было утеряно ни одного экспоната.</strong></p>
+
+        <h3>Жизнь в блокадном Эрмитаже</h3>
+        <p>В самом же Эрмитаже кипела работа: прятали оставшиеся ценности, принимали на хранение культурные реликвии из пригородных дворцов и разных организаций Ленинграда. В нечеловеческих условиях блокады, среди голода и лютого холода сотрудники занимались консервацией предметов. Здания и их роскошные интерьеры старались по мере сил защищать от ветра, дождя и снега.</p>
+        <p>Для защиты от вражеских бомбёжек и артобстрелов в Эрмитаже создали отряды местной противовоздушной обороны, а в надёжных подвалах оборудовали 12 бомбоубежищ, где до начала 1942 года постоянно жили почти две тысячи человек.</p>
+
+        <div class="museum-quote">
+            Даже в таких невероятно тяжёлых условиях научная жизнь не замирала: прошли заседания, посвящённые памяти двух великих поэтов Востока — Низами и Алишера Навои. Всей этой колоссальной и сложнейшей работой руководил директор музея И. А. Орбели.
+        </div>
+
+        <h2>Возвращение и восстановление</h2>
+        <p>Когда линия фронта отодвинулась от Ленинграда, 24 августа 1944 года Совнарком СССР принял постановление о восстановлении Эрмитажа. Начали с Павильонного зала и двух галерей у Висячего сада — именно там решили открыть выставку памятников искусства, уцелевших в блокадном городе, и экспонатов, которые музей приобрёл за военные годы.</p>
+
+        <div class="museum-timeline-block">
+            <div class="date">7 ноября 1944</div>
+            <p>Выставка заработала и просуществовала до возвращения основной части музея из эвакуации.</p>
+        </div>
+        <div class="museum-timeline-block">
+            <div class="date">10 октября 1945</div>
+            <p>Из Свердловска пришли два состава с основными коллекциями.</p>
+        </div>
+        <div class="museum-timeline-block">
+            <div class="date">5 ноября 1945</div>
+            <p>В Эрмитажном театре прошло торжественное собрание с докладом директора музея И. А. Орбели, приуроченное к открытию послевоенных залов.</p>
+        </div>
+        <div class="museum-timeline-block">
+            <div class="date">8 ноября 1945</div>
+            <p>Обновлённые залы распахнули двери для публики. Вход посетителям устроили через портик с атлантами Нового Эрмитажа.</p>
+        </div>
+
+        <p>Однако реставрация залов и зданий, в которые попали 17 артиллерийских снарядов и две авиабомбы, затянулась ещё на долгие годы.</p>
+    </div>
+</div>
+
+<!-- КУНСТКАМЕРА -->
+<div class="museum-detail-page" id="museum-kunstkamera">
+    <div class="museum-hero">
+        <img src="https://spbcult.ru/upload/iblock/52d/kkpvri4ogzit10cuf0tuk1q96rzpz8up.jpg" alt="Кунсткамера" class="museum-hero-img"/>
+        <div class="museum-hero-overlay">
+            <button class="museum-back-btn" onclick="showMainPage()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Назад к списку музеев
+            </button>
+            <h1 class="museum-hero-title">Кунсткамера</h1>
+            <p class="museum-hero-subtitle">Первый музей России оказался почти на линии фронта — в 20 км от вражеских войск</p>
+        </div>
+    </div>
+    <div class="museum-content">
+        <div class="museum-info-grid">
+            <div class="museum-info-item"><div class="label">Расстояние до фронта</div><div class="value">20 км</div></div>
+            <div class="museum-info-item"><div class="label">Статус</div><div class="value">Не эвакуирована</div></div>
+            <div class="museum-info-item"><div class="label">Год возобновления работы</div><div class="value">1945</div></div>
+            <div class="museum-info-item"><div class="label">Директор (позднее)</div><div class="value">А. В. Головнёв</div></div>
+        </div>
+
+        <h2>Кунсткамера в годы блокады</h2>
+        <p>Уже на третий день войны, 25 июня 1941 года, Кунсткамера начала оборудовать бомбоубежище: подвальные окна забили двухслойными щитами из дубовых досок. Многие сотрудники ушли на фронт — как мобилизованные в Красную армию, так и добровольцы Народного ополчения. В музее создали штаб местной противовоздушной обороны.</p>
+        <p>Научные и музейные работники в спешном порядке осваивали противогазы и учились тушить зажигательные бомбы. Первыми эту судьбу испытали на себе главный бухгалтер Л. И. Судаков и африканист Д. А. Ольдерогге, обезвреживая попавшие в здание фугаски.</p>
+
+        <h3>На линии фронта</h3>
+        <p>В годы войны и блокады Ленинграда Кунсткамера оказалась почти на линии фронта. Как отмечает член-корреспондент РАН, директор музея Андрей Владимирович Головнёв, немецкие войска на Пулковских высотах и финские войска на Карельском перешейке находились всего в 20 километрах от Ленинграда, а угроза входа вражеского флота в Неву превращала Кунсткамеру в настоящий береговой бастион.</p>
+
+        <div class="museum-quote">
+            Значительную часть коллекций не успели эвакуировать из-за стремительно замкнувшегося блокадного кольца, однако некоторых сотрудников всё же вывезли из города. Оставшиеся в здании ценности законсервировали и спрятали в подвалах.
+        </div>
+
+        <h3>Боевой дух музея</h3>
+        <p>Несмотря на суровые будни, боевой дух был присущ не только людям Кунсткамеры, но и её израненным снарядами стенам, заколоченным фанерой окнам и даже оставленным в залах экспонатам. Известна история о том, как 30 ноября 1942 года во время очередного артобстрела манекен-папуас на галерее Миклухо-Маклая выстрелил из лука «по врагу».</p>
+
+        <h2>Возрождение</h2>
+        <p>После возвращения эвакуированных сотрудников музей смог возобновить работу уже в 1945 году. Биографии этих людей — яркий пример стойкости, самоотверженности и веры в будущее.</p>
+    </div>
+</div>
+
+<!-- ВОЕННО-МОРСКОЙ МУЗЕЙ -->
+<div class="museum-detail-page" id="museum-naval">
+    <div class="museum-hero">
+        <img src="https://pastvu.com/_p/a/b/0/a/b0a8d63cc6ef4ef73650ed394f9ef48a.jpg" alt="Военно-морской музей" class="museum-hero-img"/>
+        <div class="museum-hero-overlay">
+            <button class="museum-back-btn" onclick="showMainPage()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Назад к списку музеев
+            </button>
+            <h1 class="museum-hero-title">Центральный Военно-морской музей</h1>
+            <p class="museum-hero-subtitle">Ценности эвакуированы в Ульяновск. Более 20 000 новых экспонатов собрано с мест боёв</p>
+        </div>
+    </div>
+    <div class="museum-content">
+        <div class="museum-info-grid">
+            <div class="museum-info-item"><div class="label">Город эвакуации</div><div class="value">Ульяновск</div></div>
+            <div class="museum-info-item"><div class="label">Новых экспонатов</div><div class="value">> 20 000</div></div>
+            <div class="museum-info-item"><div class="label">Группы сотрудников</div><div class="value">3</div></div>
+            <div class="museum-info-item"><div class="label">Открытие после войны</div><div class="value">28 июля 1946</div></div>
+        </div>
+
+        <h2>ЦВММ в годы войны</h2>
+        <p>Воскресным утром 22 июня 1941 года ленинградцы узнали о нападении Германии на СССР, началась Великая Отечественная война. Наиболее ценные экспонаты военно-морского музея были эвакуированы в Ульяновск. Оставшиеся в блокадном Ленинграде сотрудники музея сумели сохранить то, что не удалось вывезти. Многие из них погибли от голода и холода…</p>
+
+        <h3>Три группы сотрудников</h3>
+        <p>В начале войны в ЦВММ были созданы три группы из сотрудников музея.</p>
+        <ul>
+            <li><strong>Первая группа</strong> работала в Ленинграде. Её задачи: охрана оставшегося в помещениях Биржи музейного имущества, сохранение здания при налетах авиации и артиллерийских обстрелов, комплектование музея и научно-пропагандистская работа.</li>
+            <li><strong>Второй группе</strong> предстояло работать в Ульяновске, куда по распоряжению Наркомата ВМФ было эвакуировано имущество музея. К концу июля 1941 г. из Ленинграда ушло два каравана барж с музейным имуществом и книжными фондами Центральной военно-морской библиотеки. Эта группа должна была обеспечить хранение музейных ценностей и книжных фондов в неприспособленных для этого помещениях бывшей Симбирской лютеранской кирхи. Кроме того, сотрудники ЦВММ занимались оприходованием поступавших с действующих флотов и мест боёв реликвий и трофейного оружия.</li>
+            <li><strong>Третья группа</strong> находилась в Москве, как связующее звено между командованием ВМФ и музеем.</li>
+        </ul>
+
+        <div class="museum-timeline-block">
+            <div class="date">27 июля 1943</div>
+            <p>Народный комиссар ВМФ Адмирал Флота Н. Г. Кузнецов подписал приказ №268 «О сборе реликвий и боевых трофеев Отечественной войны при ЦВМ музее». Всего в годы войны в музей поступило более 20 тысяч новых экспонатов.</p>
+        </div>
+
+        <h2>Возвращение</h2>
+        <p>12 апреля 1944 года нарком ВМФ Н. Г. Кузнецов принял решение о возвращении из Ульяновска в Ленинград фондов ЦВММ, восстановлении всех ранее существовавших экспозиций и создании нового отдела «Военно-Морской Флот в Великой Отечественной войне».</p>
+        <p>В конце мая 1945 года в Ленинград прибыла по железной дороге из Ульяновска первая тысяча ящиков с экспонатами музея.</p>
+        <p>К Дню Военно-Морского Флота, 28 июля 1946 года, после пятилетнего перерыва, музей был вновь открыт для посетителей.</p>
+    </div>
+</div>
+
+<!-- ЗООЛОГИЧЕСКИЙ МУЗЕЙ -->
+<div class="museum-detail-page" id="museum-zoological">
+    <div class="museum-hero">
+        <img src="https://travelask.ru/system/images/files/000/280/287/wysiwyg_jpg/1.jpg?1493816688" alt="Зоологический музей" class="museum-hero-img"/>
+        <div class="museum-hero-overlay">
+            <button class="museum-back-btn" onclick="showMainPage()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Назад к списку музеев
+            </button>
+            <h1 class="museum-hero-title">Зоологический музей</h1>
+            <p class="museum-hero-subtitle">Символ научного мужества — экспозиция из 30 000 объектов осталась в городе на протяжении всей войны</p>
+        </div>
+    </div>
+    <div class="museum-content">
+        <div class="museum-info-grid">
+            <div class="museum-info-item"><div class="label">Объектов в экспозиции</div><div class="value">~30 000</div></div>
+            <div class="museum-info-item"><div class="label">Статус</div><div class="value">Остался в Ленинграде</div></div>
+            <div class="museum-info-item"><div class="label">Директор (эвакуирован)</div><div class="value">Е. Н. Павловский</div></div>
+            <div class="museum-info-item"><div class="label">Открытие после войны</div><div class="value">16 сентября 1945</div></div>
+        </div>
+
+        <h2>Зоологический музей в блокаду</h2>
+        <p>Зоологический музей в Санкт-Петербурге (входящий в состав Зоологического института РАН) в годы блокады Ленинграда (1941–1944) стал символом научного мужества. В отличие от многих других учреждений, его богатейшая экспозиция оставалась в городе на протяжении всей войны.</p>
+
+        <h3>Сохранение коллекции</h3>
+        <p>Экспозиция музея (около 30 000 объектов) практически не пострадала, несмотря на отсутствие отопления, электричества и постоянные артобстрелы. 28 июня 1941 года был издан приказ о переносе наиболее ценных коллекций и библиотеки в подвалы здания.</p>
+
+        <h3>Трагедия сотрудников</h3>
+        <p>Самые тяжелые потери музей понёс среди персонала. Многие выдающиеся учёные-зоологи погибли от голода и лишений первой блокадной зимы. Среди них:</p>
+        <ul>
+            <li>А. П. Семёнов-Тян-Шанский</li>
+            <li>Д. А. Оглоблин</li>
+            <li>А. Н. Рейхардт</li>
+            <li>и другие</li>
+        </ul>
+        <p>В память о них у входа в музей установлена мемориальная доска.</p>
+
+        <h3>Эвакуация и работа</h3>
+        <p>Часть института вместе с директором, академиком Е. Н. Павловским, была эвакуирована в Сталинабад (ныне Душанбе), где научная работа продолжалась в интересах фронта (например, изучение паразитарных заболеваний). Оставшиеся в Ленинграде сотрудники несли круглосуточные дежурства, защищая здание от зажигательных бомб.</p>
+
+        <h2>Открытие после войны</h2>
+        <p>Музей вновь открыл свои двери для посетителей 16 сентября 1945 года. За время войны здание пострадало от обстрелов, и сотрудники своими силами восстанавливали залы и остекление перед открытием.</p>
+
+        <div class="museum-quote">
+            Важно различать: в зоосаде жили живые животные. Его сотрудники совершили подвиг, сохранив жизнь бегемотихе Красавице, беркутам, грифам и другим питомцам. Зоосад закрывался только в самую тяжелую зиму 1941–1942 гг., но уже 8 июля 1942 года возобновил работу.
+        </div>
+    </div>
+</div>
+
+<!-- ЭТНОГРАФИЧЕСКИЙ МУЗЕЙ -->
+<div class="museum-detail-page" id="museum-ethnographic">
+    <div class="museum-hero">
+        <img src="https://pastvu.com/_p/a/2/0/q/20q0xdbff9el260x5c.jpg" alt="Этнографический музей" class="museum-hero-img"/>
+        <div class="museum-hero-overlay">
+            <button class="museum-back-btn" onclick="showMainPage()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Назад к списку музеев
+            </button>
+            <h1 class="museum-hero-title">Российский этнографический музей</h1>
+            <p class="museum-hero-subtitle">От голода и холода умер 31 сотрудник. Коллекции эвакуированы в Новосибирск</p>
+        </div>
+    </div>
+    <div class="museum-content">
+        <div class="museum-info-grid">
+            <div class="museum-info-item"><div class="label">Предметов в коллекции</div><div class="value">> 500 000</div></div>
+            <div class="museum-info-item"><div class="label">Упаковано к 9 июля 1941</div><div class="value">~23 000</div></div>
+            <div class="museum-info-item"><div class="label">Город эвакуации</div><div class="value">Новосибирск</div></div>
+            <div class="museum-info-item"><div class="label">Погибло сотрудников</div><div class="value">31</div></div>
+            <div class="museum-info-item"><div class="label">Директор (начало войны)</div><div class="value">Е. А. Мильштейн</div></div>
+            <div class="museum-info-item"><div class="label">Первая выставка после войны</div><div class="value">17 июня 1945</div></div>
+        </div>
+
+        <h2>Накануне войны</h2>
+        <p>Музей (ныне Российский этнографический) имел 6 научных отделов, фонды, библиотеку, реставрационные мастерские. Коллекции насчитывали более 500 тыс. предметов. В 1940 году его посетили 343 тыс. человек. Планы на 1941 год нарушила война.</p>
+
+        <h3>Лето 1941: эвакуация первых коллекций</h3>
+        <p>Многие сотрудники, включая директора Е. А. Мильштейна, ушли на фронт. Руководство взяла А. С. Морозова. К 9 июля упаковали почти 23 тыс. экспонатов. Помогли заранее подготовленные списки (с 1933 года) и красные бирки на предметах, хранившихся ближе к выходу.</p>
+        <p>Экспонаты отправили в Горький (ныне Нижний Новгород) в 4 вагонах. Из-за бомбёжек «музейный эшелон» двинулся дальше — в Новосибирск. Оставшиеся в Ленинграде коллекции разместили в подвалах Эрмитажа, Академии художеств и безопасных помещениях музея.</p>
+
+        <h3>Блокада: жизнь и смерть в Ленинграде</h3>
+        <p>С 11 июля 1941 года музей закрыли для посетителей, сотрудники перешли на казарменное положение. От бомбёжек пострадали здание и коллекции: 5 декабря 1941 года 500-кг бомба разрушила Аванзал и часть Мраморного зала.</p>
+        <p>Истощённые сотрудники разбирали завалы, чинили крышу, продолжали каталогизацию. Готовили выставку «СССР – страна дружбы народов, фашизм – концлагерь народов» для госпиталей и бомбоубежищ. Строили оборонительные рубежи, дежурили в госпиталях, сдавали тёплые вещи для бойцов (включая 90 музейных предметов).</p>
+
+        <div class="museum-quote">
+            Летом 1942 года директором стала А. Ф. Быковская, добивавшаяся повышения пайков (норма в конце 1941 года — 125 г хлеба в день). От голода и холода умер 31 сотрудник, включая ведущих учёных. Несмотря на это, они работали до последних дней.
+        </div>
+
+        <p>В феврале 1943 года пришёл первый поезд с Большой земли, улучшивший снабжение. Сотрудники сажали огород во дворе музея. К началу 1943 года в штате числилось всего 5 человек, но они продолжали спасать коллекции.</p>
+
+        <h3>Филиал в Новосибирске (декабрь 1941 – сентябрь 1945)</h3>
+        <p>Коллекции прибыли в декабре 1941 года. Сопровождал их А. Н. Вихорев, который в одиночку потушил пожар в вагоне на ходу поезда. До весны 1942 года он оставался единственным сотрудником музея в Новосибирске.</p>
+        <p>В апреле 1942 года из блокадного Ленинграда прибыла группа сотрудников. Путь был трагичен: в дороге умерла мать одной из них, а Л. Ю. Валюк скончалась в больнице сразу по прибытии. Другие из-за истощения не могли работать до середины августа.</p>
+        <p>Коллекции разместили в недостроенном здании Театра оперы и балета, где также хранились ценности других музеев.</p>
+
+        <div class="museum-timeline-block">
+            <div class="date">5 марта 1943</div>
+            <p>Открылась выставка «Культура и быт народов Северного Кавказа», посвящённая его освобождению. Её посетили более 18 тыс. человек.</p>
+        </div>
+
+        <h2>Восстановление и реэвакуация</h2>
+        <p>В 1943 году составили акт о военном ущербе. В 1944 году выделили 1 млн руб. на реставрацию здания. В 1945 году коллекции из Новосибирска вернулись в Ленинград в составе эшелона Артиллерийского музея.</p>
+
+        <div class="museum-timeline-block">
+            <div class="date">17 июня 1945</div>
+            <p>Открылась первая послевоенная выставка — «Образцы народного искусства славян» (736 предметов, 15 тыс. посетителей).</p>
+        </div>
+        <div class="museum-timeline-block">
+            <div class="date">Декабрь 1945</div>
+            <p>Выставка «Айны – жители Курильских островов и Южного Сахалина» (более 60 тыс. посетителей).</p>
+        </div>
+        <div class="museum-timeline-block">
+            <div class="date">1946</div>
+            <p>Возобновила работу реставрационная мастерская.</p>
+        </div>
+        <div class="museum-timeline-block">
+            <div class="date">1949–1956</div>
+            <p>К 1949 году восстановили 8 залов, кровлю, отопление, водопровод. Основные работы завершили к 1951 году, полностью комплекс зданий — в 1956 году. Хрустальный потолок Мраморного зала восстанавливали в 2009–2011 годах. Реставрация повреждённых экспонатов продолжается до сих пор.</p>
+        </div>
+    </div>
+</div>
+
+<!-- МУЗЕЙ АРКТИКИ И АНТАРКТИКИ -->
+<div class="museum-detail-page" id="museum-arctic">
+    <div class="museum-hero">
+        <img src="https://www.meteorf.gov.ru/images/9-may/RGMAA-1.jpg" alt="Музей Арктики" class="museum-hero-img"/>
+        <div class="museum-hero-overlay">
+            <button class="museum-back-btn" onclick="showMainPage()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Назад к списку музеев
+            </button>
+            <h1 class="museum-hero-title">Музей Арктики и Антарктики</h1>
+            <p class="museum-hero-subtitle">Фонды эвакуированы в Красноярск. Выставка открылась уже 5 октября 1941 года</p>
+        </div>
+    </div>
+    <div class="museum-content">
+        <div class="museum-info-grid">
+            <div class="museum-info-item"><div class="label">Город эвакуации</div><div class="value">Красноярск</div></div>
+            <div class="museum-info-item"><div class="label">Первая выставка</div><div class="value">5 октября 1941</div></div>
+            <div class="museum-info-item"><div class="label">Хранитель в Красноярске</div><div class="value">Н. Д. Травин</div></div>
+            <div class="museum-info-item"><div class="label">Охрана в Ленинграде</div><div class="value">К. А. Калнин, М. Г. Гальперин</div></div>
+        </div>
+
+        <h2>Эвакуация в Сибирь</h2>
+        <p>С 1941 по 1944 гг. сотрудники эвакуировали в Сибирь большую часть фондов. Усечённые арктические экспозиции на протяжении 3 лет выставляются в Красноярском краеведческом музее.</p>
+        <p>К 1 сентября 1941 года музей в Ленинграде был законсервирован. Коллекцию вывезли в Красноярск, так как туда же был эвакуирован Арктический институт, в ведении которого находился музей.</p>
+
+        <h3>Деятельность в эвакуации</h3>
+        <p>Музейные фонды не просто хранились в запасниках. Уже 5 октября 1941 года в здании Красноярского музея открылась выставка «Завоеванная Арктика», посвящённая работе станции «Северный полюс» и дрейфу парохода «Г. Седов».</p>
+
+        <h3>Основные группы эвакуированных экспонатов</h3>
+        <ul>
+            <li><strong>Реликвии первой дрейфующей станции «Северный полюс — 1»</strong> (1937–1938)</li>
+            <li><strong>Материалы экспедиции</strong> на ледокольном пароходе «Георгий Седов»</li>
+            <li><strong>Уникальные научные приборы и инструменты.</strong> Коллекция приборов XVII–XX веков, включая механизмы, использовавшиеся для астрономических и метеорологических наблюдений в высоких широтах.</li>
+            <li><strong>Этнографические коллекции.</strong> Предметы быта, одежда и искусство коренных народов Севера (ненцев, эскимосов, чукчей), а также изделия из моржовой кости.</li>
+        </ul>
+
+        <h2>Возвращение</h2>
+        <p>По возвращению в Ленинград оказалось, что сооружение на улице Марата нуждается в ремонте и перепланировке внутренних помещений.</p>
+    </div>
+</div>
+
+<!-- МУЗЕЙ ИСТОРИИ РЕЛИГИИ -->
+<div class="museum-detail-page" id="museum-religion">
+    <div class="museum-hero">
+        <img src="https://www.etoretro.ru/data/media/20/1331479652229.jpg" alt="Музей истории Религии" class="museum-hero-img"/>
+        <div class="museum-hero-overlay">
+            <button class="museum-back-btn" onclick="showMainPage()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Назад к списку музеев
+            </button>
+            <h1 class="museum-hero-title">Музей истории Религии</h1>
+            <p class="museum-hero-subtitle">Не эвакуирован — коллекции укрыты в подвалах Казанского собора</p>
+        </div>
+    </div>
+    <div class="museum-content">
+        <div class="museum-info-grid">
+            <div class="museum-info-item"><div class="label">Расположение</div><div class="value">Казанский собор</div></div>
+            <div class="museum-info-item"><div class="label">Статус</div><div class="value">Не эвакуирован</div></div>
+            <div class="museum-info-item"><div class="label">Период в соборе</div><div class="value">1932–2000</div></div>
+        </div>
+
+        <h2>Музей в блокаду</h2>
+        <p>Музей не был эвакуирован во время Великой Отечественной войны, но ранее находился в Казанском соборе. В те годы музей располагался в здании Казанского собора (в 1932–2000 годах). Большая часть экспозиций была законсервирована и укрыта в наиболее защищённых частях Казанского собора.</p>
+
+        <h3>Работа в блокаду</h3>
+        <p>Сотрудники музея оставались в Ленинграде, дежурили на крыше собора и тушили зажигательные бомбы, благодаря чему коллекции (включая уникальную научную библиотеку) удалось сохранить полностью.</p>
+        <p>Музей продолжал деятельность: сотрудники читали лекции в госпиталях и воинских частях, а также организовывали выставки, посвящённые военному патриотизму и истории русского воинства.</p>
+    </div>
+</div>
+
+<!-- ВСЕРОССИЙСКИЙ МУЗЕЙ ПУШКИНА -->
+<div class="museum-detail-page" id="museum-pushkin">
+    <div class="museum-hero">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Lyceum_in_Tsarskoye_Selo%2C_Peterburg%2C_1820s.jpg/1280px-Lyceum_in_Tsarskoye_Selo%2C_Peterburg%2C_1820s.jpg" alt="Музей Пушкина" class="museum-hero-img"/>
+        <div class="museum-hero-overlay">
+            <button class="museum-back-btn" onclick="showMainPage()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Назад к списку музеев
+            </button>
+            <h1 class="museum-hero-title">Всероссийский музей А. С. Пушкина</h1>
+            <p class="museum-hero-subtitle">Бесценные экспонаты эвакуированы в Новосибирск. Дома-музеи в Царском Селе стёрты с лица земли</p>
+        </div>
+    </div>
+    <div class="museum-content">
+        <div class="museum-info-grid">
+            <div class="museum-info-item"><div class="label">Город эвакуации</div><div class="value">Новосибирск</div></div>
+            <div class="museum-info-item"><div class="label">Мемориальная квартира</div><div class="value">Мойка, 12</div></div>
+            <div class="museum-info-item"><div class="label">Период эвакуации</div><div class="value">Лето–осень 1941</div></div>
+        </div>
+
+        <h2>Спасение пушкинского наследия</h2>
+        <p>С первых месяцев Великой Отечественной войны Всероссийский музей А. С. Пушкина (мемориальная квартира на Мойке, 12) развернул масштабную спасательную операцию. Ещё летом и осенью 1941 года самые бесценные экспонаты в срочном порядке отправили в далёкий Новосибирск.</p>
+        <p>Оставшиеся в Ленинграде коллекции, как и само старинное здание, встретили блокаду лицом к лицу. Сотрудники музея, рискуя жизнью, укрывали реликвии в надёжных подвалах, оберегая их от бомбёжек и обстрелов, и сумели сохранить мемориальные ценности, несмотря на колоссальные разрушения, постигшие пригороды.</p>
+
+        <div class="museum-quote">
+            Трагической оказалась судьба «пушкинского уголка» в Царском Селе: дома-музеи в Пушкине были стёрты с лица земли в ходе оккупации. Но даже в нечеловеческих условиях блокады, под огнём врага, хранители квартиры на Мойке, 12 не прекращали охрану и консервацию пушкинского наследия.
+        </div>
+
+        <p>Именно благодаря срочной эвакуации удалось спасти главное достояние — рукописи и подлинные мемориальные вещи поэта. После прорыва блокады эти сокровища вернулись в родной Ленинград.</p>
+    </div>
+</div>
+
+<!-- ЦЕНТРАЛЬНЫЙ МУЗЕЙ СВЯЗИ -->
+<div class="museum-detail-page" id="museum-communication">
+    <div class="museum-hero">
+        <img src="https://avatars.mds.yandex.net/i?id=c9106cefebe935a2043248cd3ba134cf_l-8102231-images-thumbs&n=13" alt="Музей связи" class="museum-hero-img"/>
+        <div class="museum-hero-overlay">
+            <button class="museum-back-btn" onclick="showMainPage()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Назад к списку музеев
+            </button>
+            <h1 class="museum-hero-title">Центральный музей связи им. А. С. Попова</h1>
+            <p class="museum-hero-subtitle">Приборы электросвязи изъяты для нужд армии</p>
+        </div>
+    </div>
+    <div class="museum-content">
+        <div class="museum-info-grid">
+            <div class="museum-info-item"><div class="label">Статус</div><div class="value">Частично эвакуирован</div></div>
+            <div class="museum-info-item"><div class="label">Изъято для армии</div><div class="value">Приборы электросвязи</div></div>
+        </div>
+
+        <h2>Музей связи в годы войны</h2>
+        <p>По распоряжению Комитета обороны в первые военные месяцы из музейных коллекций были безвозвратно изъяты все пригодные для армии приборы электросвязи (телеграфные аппараты, радиостанции и др.) выпуска 1930-х — 1940-х гг. Оставшиеся экспонаты были упакованы и перемещены в подвальные помещения.</p>
+    </div>
+</div>
+
+<!-- ГОРНЫЙ МУЗЕЙ -->
+<div class="museum-detail-page" id="museum-mining">
+    <div class="museum-hero">
+        <img src="https://открытыйгород.рф/upload/iblock/55e/Gornyy-institut.jpg" alt="Горный музей" class="museum-hero-img"/>
+        <div class="museum-hero-overlay">
+            <button class="museum-back-btn" onclick="showMainPage()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Назад к списку музеев
+            </button>
+            <h1 class="museum-hero-title">Горный музей</h1>
+            <p class="museum-hero-subtitle">Самородки уложены в сейф и отправлены в Свердловск. Полуторатонная глыба малахита осталась в залах</p>
+        </div>
+    </div>
+    <div class="museum-content">
+        <div class="museum-info-grid">
+            <div class="museum-info-item"><div class="label">Экспонатов (1941)</div><div class="value">130 014</div></div>
+            <div class="museum-info-item"><div class="label">В залах</div><div class="value">25 540</div></div>
+            <div class="museum-info-item"><div class="label">Контейнеров</div><div class="value">60</div></div>
+            <div class="museum-info-item"><div class="label">Общий вес</div><div class="value">> 4 тонн</div></div>
+            <div class="museum-info-item"><div class="label">Город эвакуации</div><div class="value">Свердловск</div></div>
+            <div class="museum-info-item"><div class="label">Директор института</div><div class="value">Д. Емельянов</div></div>
+        </div>
+
+        <h2>Спасение Горного музея</h2>
+        <p>В 1918 году, после переезда советского правительства в Москву, Горный музей лишился части ценнейших предметов, переданных в Алмазный фонд. Тем не менее к началу 1941 года его коллекция насчитывала уже 130 014 экспонатов, 25 540 из которых были выставлены в залах. Музей не уступал по популярности Эрмитажу и Царскому Селу.</p>
+
+        <div class="museum-quote">
+            Планы эвакуации всех музеев Наркомпрос сформировал ещё за пять лет до войны. Крупным музеям выделяли всего по одному вагону. Музейщики просили пересмотреть стратегию, но получали отказы и обвинения в паникёрстве.
+        </div>
+
+        <h3>Операция под грифом секретности</h3>
+        <p>Операция по спасению главных ценностей Горного музея проходила в условиях повышенной секретности. В курс дел были посвящены всего три человека, включая директора института Д. Емельянова и самого Г. Сократова. Сократов лично уложил самородки в сейф, поместил его в ящик, сверху положил образцы кристаллов, а на крышке написал: «Коллекция естественных кристаллов».</p>
+
+        <div class="museum-timeline-block">
+            <div class="date">Начало июля 1941</div>
+            <p>Ящик с самородками вместе с другими 59 контейнерами (общий вес более 4 тонн) отправили в Свердловск. Ценности разместили в помещениях Свердловского Горного института. Среди них — образцы драгоценных металлов и камней, коллекция холодного оружия, минералогические образцы, художественные предметы из камня и металла.</p>
+        </div>
+
+        <h3>Вторая партия</h3>
+        <p>Вторую партию подготовили, упаковали и спустили в подвал, но из-за начавшейся блокады вывезти уже не успели. Крупные и тяжёлые экспонаты остались в залах: горная техника, полуторатонная глыба уральского малахита, образцы солей, скелеты крупных животных. За ними всю войну следили три сотрудницы.</p>
+
+        <h3>Разрушения</h3>
+        <p>2 апреля 1942 года снаряд попал в Колонный зал музея. Спустя полгода на крыше того же зала разорвались ещё два снаряда. В результате: сорванная кровля, повреждённые фермы и балки, обрушение потолка вместе с частью живописного плафона работы художника Дж.-Б. Скотти.</p>
+        <p>Художник комиссии по охране памятников Щербаков в холодном промерзшем зале, между обстрелами, на временных лесах снял кальки с уцелевших фрагментов плафона. После войны по этим копиям плафон восстановили в кратчайшие сроки.</p>
+        <p>Наиболее сильно пострадали экспонаты, оставшиеся в залах: коллекция минеральных солей растворилась (помещение почти год стояло с временной кровлей и без отопления), разрушился уникальный полутораметровый кристалл берилла.</p>
+
+        <h2>Возвращение</h2>
+        <p>Летом 1944 года Гавриил Сократов лично сопровождал возвращение ценностей из Черемхово в Ленинград. К 175-летнему юбилею Горного института, через три года после войны, музей открылся для посетителей. Полное восстановление экспозиций завершилось через десять лет.</p>
+    </div>
+</div>
+
+<!-- ИСААКИЕВСКИЙ СОБОР -->
+<div class="museum-detail-page" id="museum-isaakievsky">
+    <div class="museum-hero">
+        <img src="https://avatars.dzeninfra.ru/get-zen_doc/1773286/pub_6392af49bc8b8d2fd42a0a4d_6392b3f28ffe7b1e8695a533/scale_1200" alt="Исаакиевский собор" class="museum-hero-img"/>
+        <div class="museum-hero-overlay">
+            <button class="museum-back-btn" onclick="showMainPage()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Назад к списку музеев
+            </button>
+            <h1 class="museum-hero-title">Исаакиевский собор — «Музейный штаб»</h1>
+            <p class="museum-hero-subtitle">В подвалах собора хранились экспонаты из множества музеев Ленинграда</p>
+        </div>
+    </div>
+    <div class="museum-content">
+        <div class="museum-info-grid">
+            <div class="museum-info-item"><div class="label">Роль</div><div class="value">Музейный штаб</div></div>
+            <div class="museum-info-item"><div class="label">Особенность</div><div class="value">Почти не обстреливали</div></div>
+        </div>
+
+        <h2>«Музейный штаб»</h2>
+        <p>В подвалах Исаакиевского собора, который почти не обстреливали прицельно (немцы использовали его купол как ориентир), хранились экспонаты из:</p>
+        <ul>
+            <li>Музея истории Ленинграда (ныне Музей истории Санкт-Петербурга)</li>
+            <li>Музея театрального и музыкального искусства</li>
+            <li>Музея Арктики (часть фондов, не уехавшая в Красноярск)</li>
+            <li>Летнего дворца Петра I и Меньшиковского дворца</li>
+        </ul>
+        <p>Исаакиевский собор стал одним из главных хранилищ музейных ценностей блокадного Ленинграда, обеспечивая их сохранность благодаря своей массивной конструкции и相对ному спокойствию от обстрелов.</p>
+    </div>
+</div>
+
+<!-- ПРИГОРОДНЫЕ ДВОРЦЫ -->
+<div class="museum-detail-page" id="museum-suburban">
+    <div class="museum-hero">
+        <img src="https://cs9.pikabu.ru/post_img/2020/07/16/4/159487601639361812.jpg" alt="Пригородные дворцы" class="museum-hero-img"/>
+        <div class="museum-hero-overlay">
+            <button class="museum-back-btn" onclick="showMainPage()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Назад к списку музеев
+            </button>
+            <h1 class="museum-hero-title">Пригородные дворцы-заповедники</h1>
+            <p class="museum-hero-subtitle">Петергоф, Пушкин, Павловск, Гатчина — коллекции эвакуированы в Сарапул, Новосибирск и Горький</p>
+        </div>
+    </div>
+    <div class="museum-content">
+        <div class="museum-info-grid">
+            <div class="museum-info-item"><div class="label">Петергоф</div><div class="value">Сарапул</div></div>
+            <div class="museum-info-item"><div class="label">Пушкин (Царское Село)</div><div class="value">Новосибирск</div></div>
+            <div class="museum-info-item"><div class="label">Павловск</div><div class="value">Сарапул</div></div>
+            <div class="museum-info-item"><div class="label">Гатчина</div><div class="value">Горький</div></div>
+        </div>
+
+        <h2>Эвакуация пригородных дворцов</h2>
+        <p>Коллекции пригородных дворцов-заповедников часто объединяли в общие эшелоны. Основные ценности из Петергофа, Пушкина (Царского Села), Павловска и Гатчины отправляли в различные города тыла:</p>
+
+        <h3>Сарапул (Удмуртия)</h3>
+        <p>Туда ушли первые эшелоны с мебелью, фарфором и живописью из Петергофа и Павловска.</p>
+
+        <h3>Новосибирск</h3>
+        <p>Здесь хранились наиболее ценные предметы из пригородных дворцов, в том числе из Пушкина (Царского Села).</p>
+
+        <h3>Горький (Нижний Новгород)</h3>
+        <p>Сюда также доставлялись части коллекций, в том числе из Гатчины.</p>
+
+        <div class="museum-quote">
+            Трагической оказалась судьба «пушкинского уголка» в Царском Селе: дома-музеи в Пушкине были стёрты с лица земли в ходе оккупации. Но даже в нечеловеческих условиях блокады, под огнём врага, хранители не прекращали охрану и консервацию наследия.
+        </div>
+
+        <p>Пригородные дворцы подверглись страшным разрушениям в ходе оккупации и боёв. Многие из них были практически полностью уничтожены. Восстановление дворцов-заповедников стало одной из грандиознейших задач послевоенного времени и продолжается до сих пор.</p>
+    </div>
+</div>
+
+<script>
+    const navbar = document.getElementById('navbar');
+    const burger = document.getElementById('burger');
+    const navLinks = document.getElementById('navLinks');
+    const mainPage = document.getElementById('mainPage');
+
+    window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+
+    const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -50px 0px' };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                const delay = entry.target.dataset.delay || 0;
+                setTimeout(() => entry.target.classList.add('visible'), delay);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in, .timeline-item, .museum-card, .fact-card').forEach((el, i) => {
+        el.dataset.delay = (i % 6) * 100;
+        observer.observe(el);
+    });
+
+    function animateCounters() {
+        document.querySelectorAll('[data-count]').forEach(counter => {
+            const target = parseInt(counter.dataset.count);
+            const duration = 2000;
+            const start = performance.now();
+            function update(now) {
+                const elapsed = now - start;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                counter.textContent = Math.floor(eased * target);
+                if (progress < 1) requestAnimationFrame(update);
+                else counter.textContent = target;
+            }
+            requestAnimationFrame(update);
+        });
+    }
+
+    const heroObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            animateCounters();
+            heroObserver.disconnect();
+        }
+    }, { threshold: 0.5 });
+    const heroStats = document.querySelector('.hero-stats');
+    if (heroStats) heroObserver.observe(heroStats);
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                const offset = 80;
+                const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                window.scrollTo({ top, behavior: 'smooth' });
+            }
+        });
+    });
+
+    // ===== MUSEUM PAGE NAVIGATION =====
+    function showMuseum(id) {
+        mainPage.classList.add('hidden');
+        document.querySelectorAll('.museum-detail-page').forEach(p => p.classList.remove('active'));
+        const page = document.getElementById('museum-' + id);
+        if (page) {
+            page.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'instant' });
+            navbar.classList.remove('scrolled');
+        }
+    }
+
+    function showMainPage() {
+        document.querySelectorAll('.museum-detail-page').forEach(p => p.classList.remove('active'));
+        mainPage.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        navbar.classList.remove('scrolled');
+    }
+
+    // Handle browser back button
+    window.addEventListener('popstate', () => {
+        if (!mainPage.classList.contains('hidden')) {
+            // Already on main page
+        } else {
+            showMainPage();
+        }
+    });
+</script>
+
+</body>
+</html>
+
